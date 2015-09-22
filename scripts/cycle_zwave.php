@@ -59,7 +59,7 @@ while (1)
    // check all web vars
    $zwave->pollUpdates();
 
-   if (file_exists('./reboot') || $_GET['onetime'])
+   if (file_exists('./reboot') || IsSet($_GET['onetime']))
    {
       $db->Disconnect();
       exit;
