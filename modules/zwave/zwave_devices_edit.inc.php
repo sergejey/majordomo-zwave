@@ -10,6 +10,7 @@
 
   $rec=SQLSelectOne("SELECT * FROM $table_name WHERE ID='$id'");
 
+
    if ($this->tab=='config') {
     include(DIR_MODULES.'zwave/products.php');
      function sortproducts($a, $b) {

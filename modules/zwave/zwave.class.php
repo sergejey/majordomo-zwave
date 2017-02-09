@@ -274,6 +274,8 @@ function admin(&$out) {
     $rec=SQLSelectOne("SELECT * FROM zwave_devices WHERE NODE_ID='".$devices[$i]->id."' AND INSTANCE_ID='".$devices[$i]->instance."'");
     $rec['NODE_ID']=$devices[$i]->id;
     $rec['INSTANCE_ID']=$devices[$i]->instance;
+    $rec['DEVICE_TYPE']=$devices[$i]->data->genericType->value;
+
     if (!$rec['TITLE']) {
      $rec['TITLE']=$devices[$i]->title;
     }
@@ -518,6 +520,14 @@ function admin(&$out) {
         echo "Polling device (".$m[0].") ...";
         $this->pollDevice($rec['ID']);
         echo "OK\n";
+
+        if ($rec['DEVICE_TYPE']==17) {
+         $remotes=SQLSelect("SELECT ID FROM zwave_devices WHERE DEVICE_TYPE=18");
+         foreach($remotes as $k=>$v) {
+          $this->pollDevice($v['ID']);
+         }
+        }
+
        }
       }
      }
@@ -1138,7 +1148,7 @@ zwave_properties - Properties
  zwave_devices: BRAND varchar(255) NOT NULL DEFAULT ''
  zwave_devices: PRODUCT varchar(255) NOT NULL DEFAULT ''
  zwave_devices: XMLFILE varchar(255) NOT NULL DEFAULT ''
- zwave_devices: RAW_DATA text NOT NULL DEFAULT ''
+ zwave_devices: RAW_DATA text
 
  zwave_properties: ID int(10) unsigned NOT NULL auto_increment
  zwave_properties: DEVICE_ID int(10) NOT NULL DEFAULT '0'
