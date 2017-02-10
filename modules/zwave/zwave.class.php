@@ -784,6 +784,7 @@ function admin(&$out) {
    if ($rec['CLASS_SCENE_CONTROLLER'] && is_object($data->commandClasses->{"43"}->data->{"currentScene"})) {
     // ... 43
     $properties['CurrentScene']=$data->commandClasses->{"43"}->data->{"currentScene"}->value;
+    $properties['TimeScene']=$data->commandClasses->{"43"}->data->{"currentScene"}->updateTime;
     if ($data->commandClasses->{"43"}->data->{"updateTime"}>$updateTime) {
      $updateTime=$data->commandClasses->{"43"}->data->{"updateTime"};
     }
