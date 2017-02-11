@@ -880,6 +880,7 @@ function admin(&$out) {
     if ($updatedList[$k]) {
      $prop['UPDATED']=date('Y-m-d H:i:s', $updatedList[$k]);
     }
+    $old_value=$prop['VALUE'];  // save value to overwrite
     $prop['VALUE']=$v;
     if ($comments[$k]) {
      $prop['COMMENTS']=$comments[$k];
@@ -913,13 +914,13 @@ function admin(&$out) {
 
  
      if ($prop['LINKED_OBJECT'] && $prop['LINKED_PROPERTY'] && $validated) {
-      $old_value=getGlobal($prop['LINKED_OBJECT'].'.'.$prop['LINKED_PROPERTY']);
+      //$old_value=getGlobal($prop['LINKED_OBJECT'].'.'.$prop['LINKED_PROPERTY']);
       if ($prop['VALUE']!=$old_value) {
        setGlobal($prop['LINKED_OBJECT'].'.'.$prop['LINKED_PROPERTY'], $prop['VALUE'], array($this->name=>'0'));
       }
      }
 
-     if ($prop['LINKED_OBJECT'] && $prop['LINKED_METHOD'] && $validated && ($prop['VALUE']!=$old_value || (!$prop['LINKED_PROPERTY']))) {
+     if ($prop['LINKED_OBJECT'] && $prop['LINKED_METHOD'] && $validated && $prop['VALUE']!=$old_value) {
       $params=array();
       $params['VALUE']=$prop['VALUE'];
       callMethod($prop['LINKED_OBJECT'].'.'.$prop['LINKED_METHOD'], $params);
