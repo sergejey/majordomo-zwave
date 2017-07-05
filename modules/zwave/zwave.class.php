@@ -619,22 +619,93 @@ function admin(&$out) {
 
    if ($rec['CLASS_SENSOR_BINARY']) {
 
-    $sensor_data=$data->commandClasses->{"48"}->data;
-    if (isset($data->commandClasses->{"48"}->data->{"1"})) {
-     $sensor_data=$data->commandClasses->{"48"}->data->{"1"};
-    }
-    $value=(int)$sensor_data->level->value;
+$sensor_data=$data->commandClasses->{"48"}->data;
+if (isset($data->commandClasses->{"48"}->data->{"1"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"1"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"2"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"2"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"3"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"3"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"4"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"4"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"5"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"5"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"6"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"6"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"7"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"7"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"8"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"8"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"9"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"9"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"10"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"10"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"11"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"11"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"12"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"12"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"13"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"13"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"14"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"14"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"15"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"15"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"16"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"16"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"17"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"17"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"18"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"18"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"19"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"19"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"20"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"20"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"21"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"21"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"22"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"22"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"23"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"23"};
+}
+if (isset($data->commandClasses->{"48"}->data->{"24"})) {
+$sensor_data=$data->commandClasses->{"48"}->data->{"24"};
+}
 
-    if ($value!==$rec['LEVEL']) {
-     $rec['LEVEL']=$value;
-     $rec_updated=1;
-    }
-    $properties['Level']=$rec['LEVEL'];
-    $command_classes['Level']=48;
-    $updatedList['Level']=$sensor_data->{"updateTime"};
-    if ($sensor_data->{"updateTime"}>$updateTime) {
-     $updateTime=$sensor_data->{"updateTime"};
-    }
+$value=(int)$sensor_data->level->value;
+
+if ($value!==$rec['LEVEL']) {
+$rec['LEVEL']=$value;
+$rec_updated=1;
+}
+$properties['Level']=$rec['LEVEL'];
+$command_classes['Level']=48;
+$updatedList['Level']=$sensor_data->{"updateTime"};
+if ($sensor_data->{"updateTime"}>$updateTime) {
+$updateTime=$sensor_data->{"updateTime"};
+}
+
    }
 
    if ($rec['CLASS_SENSOR_MULTILEVEL']) {
