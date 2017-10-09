@@ -164,6 +164,7 @@
    [#if CLASS_METER="1"#]meter;[#endif#]
    [#if CLASS_BATTERY="1"#]battery operated;[#endif#]
    [#if CLASS_THERMOSTAT="1"#]thermostat;[#endif#]
+   [#if CLASS_THERMOSTAT_SETPOINT="1"#]thermostat setpoint;[#endif#]
    [#if CLASS_SENSOR_ALARM="1"#]sensor alarm;[#endif#]
    [#if CLASS_SCENE_CONTROLLER="1"#]scene controller;[#endif#]
    [#if CLASS_CONFIG="1"#]configuration;[#endif#]
@@ -214,6 +215,17 @@
 </div>
 </div>
 [#endif#]
+
+ [#if CLASS_THERMOSTAT_SETPOINT="1"#]
+ <div class="form-group">
+  <label class="control-label">
+   Thermostat mode:
+  </label>
+  <div class="controls">
+   [#MODE_VALUE#]
+  </div>
+ </div>
+ [#endif#]
 
 [#if CLASS_BATTERY="1"#]
 <div class="form-group">
