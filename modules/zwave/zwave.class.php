@@ -313,6 +313,11 @@ function admin(&$out) {
     } else {
      $rec['CLASS_THERMOSTAT']=0;
     }
+    if (isset($devices[$i]->commandClasses->{'67'}->data)) {
+        $rec['CLASS_THERMOSTAT_SETPOINT']=1;
+    } else {
+        $rec['CLASS_THERMOSTAT_SETPOINT']=0;
+    }
     if (isset($devices[$i]->commandClasses->{'37'}->data)) {
      $rec['CLASS_SWITCH_BINARY']=1;
     } else {
@@ -441,6 +446,29 @@ function admin(&$out) {
     if ($mode) {
      $data=$this->apiCall('/ZWaveAPI/Run/devices['.$device['NODE_ID'].'].instances['.$device['INSTANCE_ID'].'].commandClasses[67].Set('.$mode.', '.$value.')');
     }
+   }
+   //Class 47 Thermostat Setpoint
+   if ($device['CLASS_THERMOSTAT_SETPOINT'] && preg_match('/ThermostatSetPoint (.+)/is', $rec['TITLE'], $m)) {
+
+       $mode_name=$m[1];
+       $data=$this->apiCall('/ZWaveAPI/Run/devices['.$device['NODE_ID'].'].instances['.$device['INSTANCE_ID'].']');
+       $mode='';
+       /*
+       $mode='1' - heating;
+       $mode='2' - cooling
+       */
+       $av_modes=$data->commandClasses->{"67"}->data;
+       for($i=0;$i<255;$i++) {
+           if (isset($av_modes->{"$i"}->modeName)) {
+               if ($av_modes->{"$i"}->modeName->value==$mode_name) {
+                   $mode=$i;
+                   break;
+               }
+           }
+       }
+       if ($mode) {
+           $data=$this->apiCall('/ZWaveAPI/Run/devices['.$device['NODE_ID'].'].instances['.$device['INSTANCE_ID'].'].commandClasses[67].Set('.$mode.','.$value.')');
+       }
    }
 
    $this->pollDevice($rec['DEVICE_ID']);
@@ -921,10 +949,39 @@ $updateTime=$sensor_data->{"updateTime"};
      }
      $comments['ThermostatFanMode']=$comments_str;
     }
-
-
    }
 
+   //Class 47 Thermostat Setpoint
+   if ($rec['CLASS_THERMOSTAT_SETPOINT']) {
+
+       $value = $data->commandClasses->{"67"}->data->mode->value;
+       $command_classes['ThermostatSetPoint'] = 67;
+       $rec_updated = 1;
+       $comments_str = '';
+       for ($i = 0; $i < 255; $i++) {
+           if ($data->commandClasses->{"67"}->data->{$i}) {
+               $comments_str .= "$i = " . $data->commandClasses->{"67"}->data->{$i}->modeName->value . "; ";
+           }
+       }
+       $comments['ThermostatSetPoint'] = $comments_str;
+
+       if (isset($data->commandClasses->{"67"}->data)) {
+           for ($i = 0; $i < 255; $i++) {
+               if ($data->commandClasses->{"67"}->data->{$i}->setVal) {
+                   $key = 'ThermostatSetPoint ' . $data->commandClasses->{"67"}->data->{$i}->modeName->value;
+                   $properties[$key] = $data->commandClasses->{"67"}->data->{$i}->setVal->value;
+                   $command_classes[$key] = 67;
+                   $updatedList[$key] = $data->commandClasses->{"67"}->data->{$i}->setVal->updateTime;
+                   if ($data->commandClasses->{"67"}->data->{$i}->setVal->updateTime > $updateTime) {
+                       $updateTime = $data->commandClasses->{"67"}->data->{$i}->setVal->updateTime;
+                   }
+                   if ($data->commandClasses->{"67"}->data->{$i}->scaleString->value) {
+                       $comments[$key] = $data->commandClasses->{"67"}->data->{$i}->scaleString->value;
+                   }
+               }
+           }
+       }
+   }
 
    if ($updateTime) {
     $properties['updateTime']=$updateTime;
@@ -1214,6 +1271,7 @@ zwave_properties - Properties
  zwave_devices: CLASS_METER int(3) NOT NULL DEFAULT '0'
  zwave_devices: CLASS_BATTERY int(3) NOT NULL DEFAULT '0'
  zwave_devices: CLASS_THERMOSTAT int(3) NOT NULL DEFAULT '0'
+ zwave_devices: CLASS_THERMOSTAT_SETPOINT int(3) NOT NULL DEFAULT '0'
  zwave_devices: CLASS_SENSOR_ALARM int(3) NOT NULL DEFAULT '0'
  zwave_devices: CLASS_SCENE_CONTROLLER int(3) NOT NULL DEFAULT '0'
  zwave_devices: CLASS_CONFIG int(3) NOT NULL DEFAULT '0'
